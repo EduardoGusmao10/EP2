@@ -1,4 +1,3 @@
-# EP2
 import random
 import string
 from palavras import words
@@ -16,33 +15,38 @@ def filtra(lista_palavras, num_letras):
 
     return palavras_filtradas
 
+import random
 def inicializa(lista_palavras):
-    n = len(lista_palavras[0])   
+    n = len(lista_palavras[0])
+    tentativas = n + 1
+    sorteada = random.choice(lista_palavras)
+    especuladas = []
 
     dicionario = {
         'n': n,
-        'tentativas': n + 1,
-        'especuladas': [],
-        'sorteada': random.choice(lista_palavras)
+        'tentativas': tentativas,
+        'especuladas': especuladas,
+        'sorteada': sorteada
     }
-
     return dicionario
 
-def indica_posicao(sorteada, especulada):
-    if len(sorteada) != len(especulada):
-        return []  
-
-    resultado = []
-
-    for i in range(len(sorteada)):
-        if especulada[i] == sorteada[i]:
-            resultado.append(0)  # Letra na posição correta
-        elif especulada[i] in sorteada:
-            resultado.append(1)  # Letra existe na palavra sorteada, mas em posição errada
-        else:
-            resultado.append(2)  # Letra não existe na palavra sorteada
-
-    return resultado
+def inidica_posicao(sorteada, especulada):
+    lista = []
+    sorteada = sorteada.lower()
+    especulada = especulada.lower()
+    
+    for letra in especulada:
+        if letra in sorteada:
+            lista.append(1)
+            indice = sorteada.find(letra)
+            indice_dois = especulada.find(letra)
+            
+            if indice == indice_dois and letra not in lista:
+                lista.append(0)
+        elif letra not in sorteada:
+            lista.append(2)
+    
+    return lista
 
 def sortear_palavra(palavras):
     return random.choice(palavras)
@@ -101,4 +105,3 @@ def jogo():
         jogo()
     else:
         print("Obrigado por jogar!")
-
